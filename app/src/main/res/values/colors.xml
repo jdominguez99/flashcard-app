@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="questionBg">#E1F5FE</color>
+    <color name="questionBorder">#01579B</color>
+    <color name="answerBg">#F8BBD0</color>
+    <color name="answerBorder">#F06292</color>
+    <color name="choiceBg">#BDBDBD</color>
+    <color name="wrong">#D50000</color>
+    <color name="right">#00C853</color>
 </resources>
