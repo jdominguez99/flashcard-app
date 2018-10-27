@@ -5,14 +5,42 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddCardActivity extends AppCompatActivity {
+
+    private static final String ERROR_MESSAGE = "Must enter both Question and Answer!";
+
+    protected EditText editQuestionView;
+    protected EditText editAnswerView;
+    protected String question;
+    protected String answer;
+    protected Toast error;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
 
+        //populate text fields if edit button was clicked
+        if ( MainActivity.clickedEdit ) {
+            editQuestionView = findViewById(R.id.editQuestion);
+            editAnswerView = findViewById(R.id.editAnswer);
+
+            question = getIntent().getStringExtra(MainActivity.questionKey);
+            answer = getIntent().getStringExtra(MainActivity.answerKey);
+            editQuestionView.setText(question, TextView.BufferType.EDITABLE);
+            editAnswerView.setText(answer, TextView.BufferType.EDITABLE);
+
+            //move cursor to end of text
+            editQuestionView.setSelection(question.length());
+            editAnswerView.setSelection(answer.length());
+
+            MainActivity.clickedEdit = false;
+        }
+
+        //don't update question and answer fields if cancel is clicked
         findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -24,16 +52,28 @@ public class AddCardActivity extends AppCompatActivity {
             }
         });
 
+        //update question and answer if save is clicked
         findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String question = ((EditText) findViewById(R.id.editQuestion)).getText().toString();
-                String answer = ((EditText) findViewById(R.id.editAnswer)).getText().toString();
-                Intent data = new Intent();
-                data.putExtra(MainActivity.questionKey, question);
-                data.putExtra(MainActivity.answerKey, answer);
-                setResult(RESULT_OK, data);
-                finish();
+                editQuestionView = findViewById(R.id.editQuestion);
+                editAnswerView = findViewById(R.id.editAnswer);
+                question = editQuestionView.getText().toString();
+                answer = editAnswerView.getText().toString();
+                //display toast error message if input empty
+                if (question.length() < 1 || answer.length() < 1) {
+                    error = Toast.makeText(getApplicationContext(), ERROR_MESSAGE, Toast.LENGTH_SHORT);
+                    View toast = error.getView();
+                    toast.setBackgroundColor(getResources().getColor(R.color.toast, null));
+                    error.show();
+                }
+                else {
+                    Intent data = new Intent();
+                    data.putExtra(MainActivity.questionKey, question);
+                    data.putExtra(MainActivity.answerKey, answer);
+                    setResult(RESULT_OK, data);
+                    finish();
+                }
             }
         });
     }

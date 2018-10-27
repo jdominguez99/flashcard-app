@@ -10,23 +10,23 @@
     <TextView
         android:id="@+id/flashcard_question"
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:background="@drawable/question_bg"
+        android:layout_height="@dimen/q_height"
         android:layout_margin="@dimen/q_margin"
         android:elevation="@dimen/q_elevation"
-        android:text="This is a question?"
+        android:background="@drawable/question_bg"
+        android:gravity="center"
         android:textSize="@dimen/qa_textSize"
-        android:layout_height="@dimen/q_height" />
+        android:text="@string/defaultQ"/>
     <TextView
         android:id="@+id/flashcard_answer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/q_height"
         android:layout_margin="@dimen/q_margin"
         android:background="@drawable/answer_bg"
-        android:visibility="invisible"
         android:gravity="center"
+        android:visibility="invisible"
         android:textSize="@dimen/qa_textSize"
-        android:text="This is the answer." />
+        android:text="@string/defaultA" />
     <TextView
         android:id="@+id/choice1"
         android:layout_width="@dimen/choice_width"
@@ -64,6 +64,13 @@
         android:textSize="@dimen/choice_textSize"
         android:text="Third"/>
     <ImageView
+        android:id="@+id/edit"
+        android:layout_width="@dimen/icon_heightWidth"
+        android:layout_height="@dimen/icon_heightWidth"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/edit"/>
+    <ImageView
         android:id="@+id/toggle"
         android:layout_width="@dimen/icon_heightWidth"
         android:layout_height="@dimen/icon_heightWidth"
@@ -75,7 +82,7 @@
         android:layout_width="@dimen/icon_heightWidth"
         android:layout_height="@dimen/icon_heightWidth"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:src="@drawable/addbutton"/>
 
 </android.widget.RelativeLayout>

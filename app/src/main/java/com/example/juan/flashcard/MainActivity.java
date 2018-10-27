@@ -8,15 +8,21 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static int questionId = R.id.flashcard_question;
-    private static int answerId = R.id.flashcard_answer;
-    private static int choiceOneId = R.id.choice1;
-    private static int choiceTwoId = R.id.choice2;
-    private static int choiceThreeId = R.id.choice3;
-    private static int addButtonId = R.id.add;
+    private static final int questionId = R.id.flashcard_question;
+    private static final int answerId = R.id.flashcard_answer;
+    private static final int choiceOneId = R.id.choice1;
+    private static final int choiceTwoId = R.id.choice2;
+    private static final int choiceThreeId = R.id.choice3;
+    private static final int addButtonId = R.id.add;
+    private static final int editButtonId = R.id.edit;
     protected static String questionKey = "question";
     protected static String answerKey = "answer";
+    protected static boolean clickedEdit = false;
+
     private boolean displayingAnswers = false;
+    private TextView questionView;
+    private TextView answerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setResetListener();
         setDisplayListener();
         setAddButtonListener();
+        setEditButtonListener();
     }
     private void setQuestionListener() {
         findViewById(questionId).setOnClickListener(new View.OnClickListener() {
@@ -113,8 +120,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
-                String question = ((TextView) findViewById(R.id.flashcard_question)).getText().toString();
-                String answer = ((TextView) findViewById(R.id.flashcard_answer)).getText().toString();
+                questionView = findViewById(questionId);
+                answerView = findViewById(answerId);
+                String question = questionView.getText().toString();
+                String answer = answerView.getText().toString();
+                intent.putExtra(questionKey, question);
+                intent.putExtra(answerKey, answer);
+                MainActivity.this.startActivityForResult(intent, 100);
+            }
+        });
+    }
+
+    private void setEditButtonListener() {
+        findViewById(editButtonId).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickedEdit = true;
+                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
+                questionView = findViewById(questionId);
+                answerView = findViewById(answerId);
+                String question = questionView.getText().toString();
+                String answer = answerView.getText().toString();
                 intent.putExtra(questionKey, question);
                 intent.putExtra(answerKey, answer);
                 MainActivity.this.startActivityForResult(intent, 100);
@@ -127,8 +153,10 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 100) {
             String question = data.getExtras().getString(questionKey);
             String answer = data.getExtras().getString(answerKey);
-            ((TextView) findViewById(questionId)).setText(question);
-            ((TextView) findViewById(answerId)).setText(answer);
+            questionView = findViewById(questionId);
+            answerView = findViewById(answerId);
+            questionView.setText(question);
+            answerView.setText(answer);
         }
     }
 }

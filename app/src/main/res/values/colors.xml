@@ -10,4 +10,5 @@
     <color name="choiceBg">#BDBDBD</color>
     <color name="wrong">#D50000</color>
     <color name="right">#00C853</color>
+    <color name="toast">#757575</color>
 </resources>

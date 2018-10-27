@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Flashcard</string>
+    <string name="defaultQ">This is where the question will be.</string>
+    <string name="defaultA">This is where the answer will be.</string>
     <string name="editQuestion">Enter the question here</string>
     <string name="editAnswer">Enter the answer here</string>
 </resources>
