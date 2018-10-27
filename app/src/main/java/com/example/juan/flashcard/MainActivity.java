@@ -1,8 +1,10 @@
 package com.example.juan.flashcard;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,6 +13,9 @@ public class MainActivity extends AppCompatActivity {
     private static int choiceOneId = R.id.choice1;
     private static int choiceTwoId = R.id.choice2;
     private static int choiceThreeId = R.id.choice3;
+    private static int addButtonId = R.id.add;
+    protected static String questionKey = "question";
+    protected static String answerKey = "answer";
     private boolean displayingAnswers = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setChoiceListeners();
         setResetListener();
         setDisplayListener();
+        setAddButtonListener();
     }
     private void setQuestionListener() {
         findViewById(questionId).setOnClickListener(new View.OnClickListener() {
@@ -100,5 +106,29 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setAddButtonListener() {
+        findViewById(addButtonId).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
+                String question = ((TextView) findViewById(R.id.flashcard_question)).getText().toString();
+                String answer = ((TextView) findViewById(R.id.flashcard_answer)).getText().toString();
+                intent.putExtra(questionKey, question);
+                intent.putExtra(answerKey, answer);
+                MainActivity.this.startActivityForResult(intent, 100);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 100) {
+            String question = data.getExtras().getString(questionKey);
+            String answer = data.getExtras().getString(answerKey);
+            ((TextView) findViewById(questionId)).setText(question);
+            ((TextView) findViewById(answerId)).setText(answer);
+        }
     }
 }

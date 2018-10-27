@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Flashcard</string>
+    <string name="editQuestion">Enter the question here</string>
+    <string name="editAnswer">Enter the answer here</string>
 </resources>
