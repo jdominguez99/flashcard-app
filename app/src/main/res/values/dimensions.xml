@@ -10,4 +10,8 @@
     <dimen name="icon_heightWidth">40dp</dimen>
     <dimen name="editText_height">70dp</dimen>
     <dimen name="editText_margin">20dp</dimen>
+    <dimen name="next_marginRight">5dp</dimen>
+    <dimen name="next_marginBottom">-55dp</dimen>
+    <dimen name="next_marginRight_answersPresent">5dp</dimen>
+    <dimen name="next_marginBottom_answersPresent">-55dp</dimen>
 </resources>

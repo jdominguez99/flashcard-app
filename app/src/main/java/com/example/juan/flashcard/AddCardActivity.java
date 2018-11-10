@@ -11,7 +11,6 @@ import android.widget.Toast;
 public class AddCardActivity extends AppCompatActivity {
 
     private static final String ERROR_MESSAGE = "Must enter both Question and Answer!";
-
     protected EditText editQuestionView;
     protected EditText editAnswerView;
     protected String question;
@@ -36,7 +35,6 @@ public class AddCardActivity extends AppCompatActivity {
             //move cursor to end of text
             editQuestionView.setSelection(question.length());
             editAnswerView.setSelection(answer.length());
-
             MainActivity.clickedEdit = false;
         }
 
@@ -60,6 +58,7 @@ public class AddCardActivity extends AppCompatActivity {
                 editAnswerView = findViewById(R.id.editAnswer);
                 question = editQuestionView.getText().toString();
                 answer = editAnswerView.getText().toString();
+
                 //display toast error message if input empty
                 if (question.length() < 1 || answer.length() < 1) {
                     error = Toast.makeText(getApplicationContext(), ERROR_MESSAGE, Toast.LENGTH_SHORT);

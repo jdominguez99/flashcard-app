@@ -85,4 +85,12 @@
         android:layout_alignParentEnd="true"
         android:src="@drawable/addbutton"/>
 
+    <ImageView
+        android:id="@+id/next"
+        android:layout_width="@dimen/icon_heightWidth"
+        android:layout_height="@dimen/icon_heightWidth"
+        android:layout_below="@id/flashcard_question"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/next" />
+
 </android.widget.RelativeLayout>
