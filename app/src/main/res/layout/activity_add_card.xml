@@ -23,6 +23,32 @@
         android:inputType="textMultiLine"
         android:hint="@string/editAnswer"/>
 
+    <!-- <EditText
+        android:id="@+id/editChoice1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/editText_height"
+        android:layout_margin="@dimen/editText_margin"
+        android:layout_below="@id/editAnswer"
+        android:inputType="textMultiLine"
+        android:hint="@string/enterChoice"/>
+    <EditText
+        android:id="@+id/editChoice2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/editText_height"
+        android:layout_margin="@dimen/editText_margin"
+        android:layout_below="@id/editChoice1"
+        android:inputType="textMultiLine"
+        android:hint="@string/enterChoice"/>
+    <EditText
+        android:id="@+id/editChoice3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/editText_height"
+        android:layout_margin="@dimen/editText_margin"
+        android:layout_below="@id/editChoice2"
+        android:inputType="textMultiLine"
+        android:hint="@string/enterChoice"/>
+    -->
+
     <ImageView
         android:id="@+id/cancelButton"
         android:layout_width="@dimen/icon_heightWidth"

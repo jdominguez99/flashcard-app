@@ -31,7 +31,7 @@
         android:id="@+id/choice1"
         android:layout_width="@dimen/choice_width"
         android:layout_height="wrap_content"
-        android:layout_below="@id/flashcard_question"
+        android:layout_below="@id/delete_card"
         android:layout_margin="@dimen/choice_margin"
         android:layout_centerHorizontal="true"
         android:visibility="invisible"
@@ -86,11 +86,28 @@
         android:src="@drawable/addbutton"/>
 
     <ImageView
+        android:id="@+id/previous"
+        android:layout_width="@dimen/icon_heightWidth"
+        android:layout_height="@dimen/icon_heightWidth"
+        android:layout_below="@id/flashcard_question"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/previous"/>
+
+    <ImageView
+        android:id="@+id/delete_card"
+        android:layout_width="@dimen/icon_heightWidth"
+        android:layout_height="@dimen/icon_heightWidth"
+        android:layout_below="@id/flashcard_question"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/delete_card"/>
+
+    <ImageView
         android:id="@+id/next"
         android:layout_width="@dimen/icon_heightWidth"
         android:layout_height="@dimen/icon_heightWidth"
         android:layout_below="@id/flashcard_question"
         android:layout_alignParentEnd="true"
         android:src="@drawable/next" />
+
 
 </android.widget.RelativeLayout>

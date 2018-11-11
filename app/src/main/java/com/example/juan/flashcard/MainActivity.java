@@ -19,9 +19,13 @@ public class MainActivity extends AppCompatActivity {
     private static final int addButtonId = R.id.add;
     private static final int editButtonId = R.id.edit;
     private static final int nextButtonId = R.id.next;
-    protected static String questionKey = "question";
-    protected static String answerKey = "answer";
-    protected static boolean clickedEdit = false;
+    private static final int deleteButtonId = R.id.delete_card;
+    private static final int prevButtonId = R.id.previous;
+    protected static final String questionKey = "question";
+    protected static final String answerKey = "answer";
+    protected static final String requestCodeKey = "requestCode";
+    protected static final int ADD_CARD_REQUEST_CODE = 100;
+    protected static final int EDIT_CARD_REQUEST_CODE = 200;
 
     private boolean displayingAnswers = false;
     private TextView questionView;
@@ -41,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
         allFlashCards = flashcardDatabase.getAllCards();
         databaseSize = allFlashCards.size();
         // check for existing flashcards before setting q/a to default
-        if ( allFlashCards != null && databaseSize > 0 ) {
-            System.out.format("entered thingy%n");
+        if ( databaseSize > 0 ) {
             questionView = findViewById(questionId);
             answerView = findViewById(answerId);
             //update this later to a random question and answer
@@ -56,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
         setDisplayListener();
         setAddButtonListener();
         setEditButtonListener();
+        setPrevButtonListener();
         setNextButtonListener();
+        setDeleteButtonListener();
 
     }
 
@@ -64,8 +69,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(questionId).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                findViewById(questionId).setVisibility(View.INVISIBLE);
-                findViewById(answerId).setVisibility(View.VISIBLE);
+                toggleVisibility();
                 setAnswerListener();
             }
         });
@@ -101,8 +105,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(answerId).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                findViewById(answerId).setVisibility(View.INVISIBLE);
-                findViewById(questionId).setVisibility(View.VISIBLE);
+                toggleVisibility();
             }
         });
     }
@@ -148,13 +151,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
+
                 questionView = findViewById(questionId);
                 answerView = findViewById(answerId);
+
                 String question = questionView.getText().toString();
                 String answer = answerView.getText().toString();
                 intent.putExtra(questionKey, question);
                 intent.putExtra(answerKey, answer);
-                MainActivity.this.startActivityForResult(intent, 100);
+                MainActivity.this.startActivityForResult(intent, ADD_CARD_REQUEST_CODE);
             }
         });
     }
@@ -163,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(editButtonId).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickedEdit = true;
                 Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
                 questionView = findViewById(questionId);
                 answerView = findViewById(answerId);
@@ -171,7 +175,29 @@ public class MainActivity extends AppCompatActivity {
                 String answer = answerView.getText().toString();
                 intent.putExtra(questionKey, question);
                 intent.putExtra(answerKey, answer);
-                MainActivity.this.startActivityForResult(intent, 100);
+                MainActivity.this.startActivityForResult(intent, EDIT_CARD_REQUEST_CODE);
+            }
+        });
+    }
+
+    private void setPrevButtonListener() {
+        findViewById(prevButtonId).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currDisplayIdx--;
+                if (currDisplayIdx < 0) {
+                    currDisplayIdx = databaseSize - 1;
+                }
+                System.out.format("Showing current index: %d%n", currDisplayIdx);
+                questionView = findViewById(questionId);
+                answerView = findViewById(answerId);
+
+                questionView.setText(allFlashCards.get(currDisplayIdx).getQuestion());
+                answerView.setText(allFlashCards.get(currDisplayIdx).getAnswer());
+
+                if (answerView.getVisibility() == View.VISIBLE) {
+                    toggleVisibility();
+                }
             }
         });
     }
@@ -193,6 +219,47 @@ public class MainActivity extends AppCompatActivity {
 
                     questionView.setText(allFlashCards.get(currDisplayIdx).getQuestion());
                     answerView.setText(allFlashCards.get(currDisplayIdx).getAnswer());
+
+                    //if looking at current answer, set the next
+                    // answer to invisible and display the question
+                    if (answerView.getVisibility() == View.VISIBLE) {
+                        toggleVisibility();
+                    }
+                }
+            }
+        });
+    }
+
+    private void setDeleteButtonListener() {
+        findViewById(deleteButtonId).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                questionView = findViewById(questionId);
+                answerView = findViewById(answerId);
+
+                flashcardDatabase.deleteCard(questionView.getText().toString());
+                allFlashCards = flashcardDatabase.getAllCards();
+                databaseSize = allFlashCards.size();
+                currDisplayIdx--;
+
+                //display a default state if cards depleted
+                if (allFlashCards.isEmpty()) {
+                    questionView.setText(R.string.defaultQ);
+
+                    answerView.setText(R.string.defaultA);
+
+                }
+                else {
+                    if (currDisplayIdx < 0) {
+                        currDisplayIdx = databaseSize - 1;
+                    }
+                    questionView.setText(allFlashCards.get(currDisplayIdx).getQuestion());
+                    answerView.setText(allFlashCards.get(currDisplayIdx).getAnswer());
+
+                }
+                // toggle visibility if currently looking at answer
+                if (answerView.getVisibility() == View.VISIBLE) {
+                    toggleVisibility();
                 }
             }
         });
@@ -200,16 +267,48 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 100) {
-            String question = data.getExtras().getString(questionKey);
-            String answer = data.getExtras().getString(answerKey);
-            questionView = findViewById(questionId);
-            answerView = findViewById(answerId);
+        String question = data.getExtras().getString(questionKey);
+        String answer = data.getExtras().getString(answerKey);
+        questionView = findViewById(questionId);
+        answerView = findViewById(answerId);
+
+        //handle new cards
+        if (requestCode == ADD_CARD_REQUEST_CODE && resultCode == RESULT_OK) {
             questionView.setText(question);
             answerView.setText(answer);
+
+            //add the new card to the database
             flashcardDatabase.insertCard(new Flashcard(question, answer));
             allFlashCards = flashcardDatabase.getAllCards();
             databaseSize = allFlashCards.size();
+            currDisplayIdx = databaseSize - 1;
         }
+        //handle edits
+        else if (requestCode == EDIT_CARD_REQUEST_CODE && resultCode == RESULT_OK) {
+            questionView.setText(question);
+            answerView.setText(answer);
+            Flashcard card = allFlashCards.get(currDisplayIdx);
+            card.setQuestion(question);
+            card.setAnswer(answer);
+            flashcardDatabase.updateCard(card);
+        }
+    }
+
+    // toggles visibility of the question and answer fields
+    private void toggleVisibility() {
+        if (findViewById(questionId).getVisibility() == View.VISIBLE) {
+            findViewById(questionId).setVisibility(View.INVISIBLE);
+            findViewById(answerId).setVisibility(View.VISIBLE);
+        }
+        else {
+            findViewById(questionId).setVisibility(View.VISIBLE);
+            findViewById(answerId).setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        intent.putExtra(requestCodeKey, requestCode);
+        super.startActivityForResult(intent, requestCode);
     }
 }

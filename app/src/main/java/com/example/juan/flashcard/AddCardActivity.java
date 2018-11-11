@@ -13,6 +13,12 @@ public class AddCardActivity extends AppCompatActivity {
     private static final String ERROR_MESSAGE = "Must enter both Question and Answer!";
     protected EditText editQuestionView;
     protected EditText editAnswerView;
+    /*
+    protected EditText editChoiceOneView;
+    protected EditText editChoiceTwoView;
+    protected EditText editChoiceThreeView;
+    */
+
     protected String question;
     protected String answer;
     protected Toast error;
@@ -23,19 +29,9 @@ public class AddCardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_card);
 
         //populate text fields if edit button was clicked
-        if ( MainActivity.clickedEdit ) {
-            editQuestionView = findViewById(R.id.editQuestion);
-            editAnswerView = findViewById(R.id.editAnswer);
-
-            question = getIntent().getStringExtra(MainActivity.questionKey);
-            answer = getIntent().getStringExtra(MainActivity.answerKey);
-            editQuestionView.setText(question, TextView.BufferType.EDITABLE);
-            editAnswerView.setText(answer, TextView.BufferType.EDITABLE);
-
-            //move cursor to end of text
-            editQuestionView.setSelection(question.length());
-            editAnswerView.setSelection(answer.length());
-            MainActivity.clickedEdit = false;
+        if ( getIntent().getIntExtra(MainActivity.requestCodeKey, MainActivity.ADD_CARD_REQUEST_CODE) ==
+                MainActivity.EDIT_CARD_REQUEST_CODE ) {
+            handleEdits();
         }
 
         //don't update question and answer fields if cancel is clicked
@@ -50,6 +46,24 @@ public class AddCardActivity extends AppCompatActivity {
             }
         });
 
+        handleSave();
+    }
+
+    private void handleEdits() {
+        editQuestionView = findViewById(R.id.editQuestion);
+        editAnswerView = findViewById(R.id.editAnswer);
+
+        question = getIntent().getStringExtra(MainActivity.questionKey);
+        answer = getIntent().getStringExtra(MainActivity.answerKey);
+        editQuestionView.setText(question, TextView.BufferType.EDITABLE);
+        editAnswerView.setText(answer, TextView.BufferType.EDITABLE);
+
+        //move cursor to end of text
+        editQuestionView.setSelection(question.length());
+        editAnswerView.setSelection(answer.length());
+    }
+
+    private void handleSave() {
         //update question and answer if save is clicked
         findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
             @Override
