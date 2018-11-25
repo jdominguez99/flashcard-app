@@ -1,5 +1,22 @@
 
 
+### App Description
+Almost finalized, this app has multiple features for user interaction including the ability to save, edit, and browse through multiple cards. Users can toggle multiple choice buttons on and off, and can delete cards if they so choose. There are also some aesthetic and design features such as sleek transition animations. 
+
+### App Walk-though
+
+<img src="http://g.recordit.co/YmvBM55NQ4.gif" width=200><br>
+
+## Required
+- [x] User sees a transition animation when going from the main screen to the add card screen.
+- [x] User sees a reveal animation when the flashcard is tapped and the answer is shown
+- [x] User sees flashcards animating in / out when the 'next' button is tapped
+
+## Optional
+- [x] Extra styling is added!
+- [ ] User sees a countdown timer for each question
+- [ ] User sees a 'card flip' animation when the card is tapped
+- [ ] User sees a celebration animation with confetti when they answer a question correctly
 ## Lab 3
 
 ### App Description
@@ -36,8 +53,8 @@ Basic flashcard app with user input functionality.
 - [x] Push your progress to GitHub!
 
 ## Optional
-- [ ] User can edit a card
-- [ ] An error message is shown if the user doesn't enter both a Question and an Answer
-- [ ] A notification is shown if the card was created successfully
+- [x] User can edit a card
+- [x] An error message is shown if the user doesn't enter both a Question and an Answer
+- [x] A notification is shown if the card was created successfully
 - [ ] User can also enter multiple choice answers when creating a card
 - [ ] App is further styled and customized!
