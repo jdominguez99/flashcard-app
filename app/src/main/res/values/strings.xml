@@ -2,6 +2,9 @@
     <string name="app_name">Flashcard</string>
     <string name="defaultQ">Click the add or edit buttons to enter text.</string>
     <string name="defaultA">Click the add or edit buttons to enter text.</string>
+    <string name="defaultChoiceOne">Choice one</string>
+    <string name="defaultChoiceTwo">Choice two</string>
+    <string name="defaultChoiceThree">Choice three</string>
     <string name="editQuestion">Enter the question here</string>
     <string name="editAnswer">Enter the answer here</string>
     <string name="enterChoice">Enter a choice here</string>

@@ -28,6 +28,9 @@ public class AddCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
 
+        editQuestionView = findViewById(R.id.editQuestion);
+        editAnswerView = findViewById(R.id.editAnswer);
+
         //populate text fields if edit button was clicked
         if ( getIntent().getIntExtra(MainActivity.requestCodeKey, MainActivity.ADD_CARD_REQUEST_CODE) ==
                 MainActivity.EDIT_CARD_REQUEST_CODE ) {
@@ -41,7 +44,7 @@ public class AddCardActivity extends AppCompatActivity {
                 Intent data = new Intent();
                 data.putExtra(MainActivity.questionKey, getIntent().getStringExtra(MainActivity.questionKey));
                 data.putExtra(MainActivity.answerKey, getIntent().getStringExtra(MainActivity.answerKey));
-                setResult(RESULT_OK, data);
+                setResult(RESULT_CANCELED, data);
                 finish();
             }
         });
@@ -50,8 +53,6 @@ public class AddCardActivity extends AppCompatActivity {
     }
 
     private void handleEdits() {
-        editQuestionView = findViewById(R.id.editQuestion);
-        editAnswerView = findViewById(R.id.editAnswer);
 
         question = getIntent().getStringExtra(MainActivity.questionKey);
         answer = getIntent().getStringExtra(MainActivity.answerKey);
@@ -68,8 +69,7 @@ public class AddCardActivity extends AppCompatActivity {
         findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editQuestionView = findViewById(R.id.editQuestion);
-                editAnswerView = findViewById(R.id.editAnswer);
+
                 question = editQuestionView.getText().toString();
                 answer = editAnswerView.getText().toString();
 

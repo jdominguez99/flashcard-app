@@ -38,7 +38,7 @@
         android:gravity="center"
         android:background="@color/choiceBg"
         android:textSize="@dimen/choice_textSize"
-        android:text="First"/>
+        android:text="@string/defaultChoiceOne"/>
     <TextView
         android:id="@+id/choice2"
         android:layout_width="@dimen/choice_width"
@@ -50,7 +50,7 @@
         android:gravity="center"
         android:background="@color/choiceBg"
         android:textSize="@dimen/choice_textSize"
-        android:text="Second"/>
+        android:text="@string/defaultChoiceTwo"/>
     <TextView
         android:id="@+id/choice3"
         android:layout_width="@dimen/choice_width"
@@ -62,7 +62,7 @@
         android:gravity="center"
         android:background="@color/choiceBg"
         android:textSize="@dimen/choice_textSize"
-        android:text="Third"/>
+        android:text="@string/defaultChoiceThree"/>
     <ImageView
         android:id="@+id/edit"
         android:layout_width="@dimen/icon_heightWidth"
